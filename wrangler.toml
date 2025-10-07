@@ -1,7 +1,5 @@
 name = "researchdesignzwuupjack"
 compatibility_date = "2025-10-07"
 
-routes = ["https://researchdesignzwuupjack.pages.dev/*"]
-
 [assets]
 directory = "."

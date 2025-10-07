@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/night-owl.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Ultrasonic Distance Sensor Code:</h1>
+<pre>
+<code class="language-c++">
+#include "Arduino.h"  // Include the Arduino core library.
+
+#define SENSOR_PIN 23  // Define the GPIO pin connected to the ultrasonic sensor.
+
+int i = 0;  // Global counter to track the number of measurements.
+
+void setup() {
+  Serial.begin(115200);  // Initialize serial communication at 115200 baud.
+  pinMode(SENSOR_PIN, OUTPUT);  // Set the sensor pin as output to send trigger pulses.
+}
+
+float measureDistance() {
+  // Send a short LOW pulse to ensure a clean HIGH signal.
+  digitalWrite(SENSOR_PIN, LOW);
+  delayMicroseconds(2);
+
+  // Send a 10 microsecond HIGH pulse to trigger the ultrasonic sensor.
+  digitalWrite(SENSOR_PIN, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(SENSOR_PIN, LOW);
+
+  // Switch the pin to input mode to listen for the echo.
+  pinMode(SENSOR_PIN, INPUT);
+
+  // Wait for the echo to start (pin goes HIGH).
+  unsigned long startTime = micros();
+  while (digitalRead(SENSOR_PIN) == LOW) {
+    startTime = micros();  // Continuously update start time until echo begins.
+  }
+
+  // Wait for the echo to end (pin goes LOW).
+  unsigned long endTime = micros();
+  while (digitalRead(SENSOR_PIN) == HIGH) {
+    endTime = micros();  // Continuously update end time until echo ends.
+  }
+
+  // Reset the pin to output mode for the next trigger pulse.
+  pinMode(SENSOR_PIN, OUTPUT);
+
+  // Calculate the duration of the echo pulse.
+  unsigned long duration = endTime - startTime;
+
+  // Convert duration to distance in centimeters.
+  // Speed of sound is approximately 343 m/s or 0.0343 cm/µs.
+  float distance = (duration * 0.0343) / 2.0;  // Divide by 2 for round-trip.
+  return distance;
+}
+
+void loop() {
+  i++;  // Increment the measurement counter.
+
+  float dist = measureDistance();  // Measure the distance.
+
+  dist = round(dist / 0.2) * 0.2;  // Round to the nearest 0.2 cm for consistency.
+
+  Serial.printf("%d. Afstand: %.1f cm\n", i, dist);  // Print the result with index.
+
+  delay(100);  // Wait 100 milliseconds before the next measurement.
+}
+
+</code>
+</pre>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/go.min.js"></script>
+<script src="highlight.js"></script>
+</body>
+</html>

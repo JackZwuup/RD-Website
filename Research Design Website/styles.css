@@ -1,0 +1,28 @@
+@font-face {
+    font-family: 'Public Sans';
+    src: url(PublicSans-VariableFont_wght.ttf);
+}
+
+body {
+    font-family: 'Public Sans';
+}
+
+table {
+    border-collapse: collapse;
+    border: 1px solid #000;
+
+}
+
+table th {
+    color: #000;
+    background: lightgreen;
+    position: sticky;
+    top: 0;
+}
+
+table td,
+table th {
+    border: 1px solid #ddd;
+    text-align: center;
+    padding: 1rem;
+}

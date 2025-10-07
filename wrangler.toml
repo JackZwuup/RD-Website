@@ -1,5 +1,5 @@
-name = "rd-website"
+name = "researchdesignzwuupjack"
 compatibility_date = "2025-10-07"
 
-[site]
+[assets]
 bucket = "."
